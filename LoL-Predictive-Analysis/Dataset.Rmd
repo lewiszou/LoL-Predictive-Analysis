@@ -8,16 +8,111 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+library(tidyverse)
+library(gt)
 
+worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 ```
 
 
-```{r}
-tribble(
-  ~column, ~description
-  "week", "+2",
-  "game", "-6",
-
+```{r making the explanation table}
+x <- tribble(
+  ~Column, ~Description,
+  "week", "Week game was played",
+  "game", "Game number for team",
+  "patchno", "Patch number (refers to the meta / style of gameplay)",
+  "playerid", "Player IDs",
+  "side", "Red or blue side of the game",
+  "position", "Position played",
+  "player", "Player name",
+  "team", "Team name",
+  "champion", "Champion played",
+  "ban", "Champion banned from playing (5 for each team)",
+  "gamelength", "Length of game in minutes",
+  "result", "Win or loss (1 = win)",
+  "k", "+2",
+  "d", "+2",
+  "a", "+2",
+  "teamkills", "+2",
+  "teamdeaths", "+2",
+  "doubles", "+2",
+  "triples", "+2",
+  "quadras", "+2",
+  "pentas", "+2",
+  "fb", "+2",
+  "fbassist", "+2",
+  "fbvictim", "+2",
+  "fbtime", "+2",
+  "kpm", "+2",
+  "okpm", "+2",
+  "ckpm", "+2",
+  "fd", "+2",
+  "fdtime", "+2",
+  "teamdragkills", "+2",
+  "oppdragkills", "+2",
+  "elementals", "+2",
+  "oppelementals", "+2",
+  "firedrakes", "+2",
+  "waterdrakes", "+2",
+  "earthdrakes", "+2",
+  "airdrakes", "+2",
+  "elders", "+2",
+  "oppelders", "+2",
+  "herald", "+2",
+  "hearldtime", "+2",
+  "ft", "+2",
+  "fttime", "+2",
+  "firstmidouter", "+2",
+  "firsttothreetowers", "+2",
+  "teamtowerkills", "+2",
+  "opptowerkills", "+2",
+  "fbaron", "+2",
+  "fbarontime", "+2",
+  "teambaronkills", "+2",
+  "oppbaronkills", "+2",
+  "dmgtochamps", "+2",
+  "dmgtochampsperminute", "+2",
+  "dmgshare", "+2",
+  "earnedgoldshare", "+2",
+  "wards", "+2",
+  "wpm", "+2",
+  "wardshare", "+2",
+  "wardkills", "+2",
+  "wcpm", "+2",
+  "visionwards", "+2",
+  "visionwardbuys", "+2",
+  "visiblewarclearrate", "+2",
+  "invisiblewardclearrate", "+2",
+  "totalgold", "+2",
+  "earnedgpm", "+2",
+  "goldspent", "+2",
+  "gspd", "+2",
+  "minionkills", "+2",
+  "monsterkills", "+2",
+  "monsterkillsownjungle", "+2",
+  "monsterkillsenemyjungle", "+2",
+  "cpsm", "+2",
+  "goldat10", "+2",
+  "oppgoldat10", "+2",
+  "goldat15", "+2",
+  "oppgoldat15", "+2",
+  "gdat15", "+2",
+  "xpat15", "+2",
+  "oppxpat10", "+2",
+  "xpat10", "+2",
+  "csat10", "+2",
+  "oppcsat10", "+2",
+  "csdat10", "+2",
+  "xpdat10", "+2",
+  "csat10", "+2",
+  "oppcsat10", "+2",
+  "csdat10", "+2",
+  "csat15", "+2",
+  "oppcsat15", "+2",
+  "csdat15", "+2"
 )
+
+x %>%
+  gt()
 ```
 
