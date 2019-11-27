@@ -1,0 +1,23 @@
+---
+title: "Dataset Explanation"
+author: "Lewis Zou"
+date: "11/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+
+```
+
+
+```{r}
+tribble(
+  ~column, ~description
+  "week", "+2",
+  "game", "-6",
+
+)
+```
+
