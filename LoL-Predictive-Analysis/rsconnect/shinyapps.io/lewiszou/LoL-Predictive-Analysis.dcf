@@ -5,8 +5,8 @@ account: lewiszou
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1534005
-bundleId: 2623372
+bundleId: 2623528
 url: https://lewiszou.shinyapps.io/LoL-Predictive-Analysis/
-when: 1574907905.98826
+when: 1574915091.92182
 asMultiple: FALSE
 asStatic: FALSE
