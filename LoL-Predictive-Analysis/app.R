@@ -91,8 +91,10 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                  checkboxInput('smooth', 'Smooth'))),
                           plotOutput('interactive_intro')
                ),
-               
-               tabPanel("2018 Worlds: Deep Dive"),
+
+               tabPanel("2018 Worlds: Deep Dive",
+                        HTML(readLines('worlds_dive.html'))
+               ),
                
                tabPanel("Analysis Applied"),
                
