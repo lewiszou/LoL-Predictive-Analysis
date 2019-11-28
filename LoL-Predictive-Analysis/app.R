@@ -1,5 +1,4 @@
 library(shinythemes)
-library(shiny)
 
 worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 definitions <- readRDS("clean-data/definitions.rds")
@@ -29,6 +28,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             br(),
                             h3("Definition"),
                             fluidRow(column(10, textOutput("select"))),)),
+                        
                         tabPanel("Explore the Data",
                                  column(4,
                                         selectInput("team",
@@ -49,28 +49,20 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                  # Create a new row for the table.
                                  
                                  column(width = 12,
-                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;")
+                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;"))
                ),
                
                tabPanel("2018 Worlds: Intro",
-                        h1("League of Legends — a global phenomenon"),
-                        br(),
-                        img(src="map.jpg", 
-                            style="display: block; margin-left: auto; margin-right: auto;", 
-                            height = "475px"),
-                        h5("Map of a classic League of Legends game", align = "center"),
-                        HTML(readLines('About.html'))),
-               ),
-               
-               tabPanel("2018 Worlds: Deep Dive",
                         h1("Introduction to the 2018 World Championships"),
                         br(),
                         img(src="worlds_2018.jpg", 
                             style="display: block; margin-left: auto; margin-right: auto;", 
                             height = "475px"),
                         h5("2018 World Championships Finals", align = "center"),
-                        HTML(readLines('worlds_intro.html')),
+                        HTML(readLines('worlds_intro.html'))
                ),
+               
+               tabPanel("2018 Worlds: Deep Dive"),
                
                tabPanel("Analysis Applied"),
                

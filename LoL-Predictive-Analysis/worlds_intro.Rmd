@@ -6,5 +6,84 @@ output: html_fragment
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(cowplot)
+worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 ```
+
+League of Legends teams, players, and analysts have moved from an emphasis on stylish player against player outplays to a greater focus on strategy and statistics. Although 1v1 outplays are still celebrated across the game, strong game management and objective control ultimately lead to victories. Objectives like dragons and barons are often cited as deciders of wins and losses. This makes sense: these late-game objectives provide a major damage boost. As such, the winner (IG), a semifinalist, and a quarterfinalist made the top 5 in average dragons per game. 
+
+```{r}
+worlds_18 %>%
+  group_by(team) %>%
+  filter(position == "Team") %>%
+  filter(week != "PI") %>%
+  summarize(total = length(team), 
+            dragons = sum(teamdragkills) / total) %>%
+  arrange(desc(dragons)) %>%
+  head(5) %>%
+  ggplot(aes(x = reorder(team, -dragons), y = dragons)) + 
+  geom_col(fill = "black") +
+  labs(title = "Top 5 Teams in Dragons per Game",
+       x = "Team",
+       y = "Dragons per Game")
+
+```
+
+Notably, Team Liquid and Phong Vu Buffalo, did not place well but still maintained a high number of dragons. As such, we emphasize that there are many other factors that lead to game wins. Although dragons and objectives are important in helping teams gain these boosts, ultimately it is teamfights that lead to the result of a game. Gold is critical in purchasing items to defeat other teams. Gold matters more earlier in the game — during that time, a larger gold difference presents a drastic item difference. Gold difference also helps normalize the data, as some games may result in more actions and thus result in more overall gold. As such, we note that the winner (IG), 2nd place (Fnatic), and two quarterfinalists maintained the strongest gold difference at 10 minutes. Room for error still remains: Team Liquid placed only slightly better than the median.
+
+```{r}
+worlds_18 %>%
+  group_by(team) %>%
+  filter(position == "Team") %>%
+  filter(week != "PI") %>%
+  summarize(total = length(team), 
+            gdat10 = sum(gdat10) / total) %>%
+  arrange(desc(gdat10)) %>%
+  head(5) %>%
+  ggplot(aes(x = reorder(team, -gdat10), y = gdat10)) + 
+  geom_col(fill = "darkgreen") +
+  labs(title = "Top 5 Teams in Gold Difference at 10 Minutes",
+       x = "Team",
+       y = "Average Gold Difference at 10 Minutes")
+
+```
+
+The trend continues with the teams that did poorly. 4 of the 5 teams depicted performed below average. The only outlier, Edward Gaming, placed as a quarterfinalist. 
+
+```{r}
+worlds_18 %>%
+  group_by(team) %>%
+  filter(position == "Team") %>%
+  filter(week != "PI") %>%
+  summarize(total = length(team), 
+            gdat10 = sum(gdat10) / total) %>%
+  arrange(desc(gdat10)) %>%
+  tail(5) %>%
+  ggplot(aes(x = reorder(team, gdat10), y = gdat10)) + 
+  geom_col(fill = "darkred") +
+  labs(title = "Bottom 5 Teams in Gold Difference at 10 Minutes",
+       x = "Team",
+       y = "Average Gold Difference at 10 Minutes")
+```
+
+
+Although these trends are not absolute and can only suggest a correlation, we can tell that gold is critical to these teams. As such, we dive deeper into the importance of gold.
+
+## The Importance of Gold
+
+These factors are a result of the gold being spent in the game. Gold helps champions buy items, which leads to higher DPM.
+
+Graph of gold on DPM.
+
+This increase in DPM helps champions win team fights, which is the pinnacle of any league game. This is how teams generally win.
+
+Graph of gold on the result.
+
+As such, we know gold is important. 
+
+Editable graph of gold generation.
+
+## Analyzing Factors that Impact Gold Earned

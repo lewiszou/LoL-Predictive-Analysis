@@ -38,11 +38,11 @@ worlds_2017 <- read_xlsx("raw-data/worlds-2017.xlsx") %>%
   select(-gameid, -url, -league, -split, -date)
 
 worlds_2018 <- read_xlsx("raw-data/worlds-2018.xlsx") %>%
-  filter(week != "PI-RR" & week != "PI-KO") %>%
+  filter(week != "PI-RR" & week != "PI-KO" & week != "PI") %>%
   select(-gameid, -url, -league, -split, -date)
 
 worlds_2019 <- read_xlsx("raw-data/worlds-2019.xlsx") %>%
-  filter(week != "PI-RR" & week != "PI-KO") %>%
+  filter(week != "PI-RR" & week != "PI-KO" & week != "PI") %>%
   select(-gameid, -url, -league, -split, -date)
 
 # I wrote worlds into the clean-data as a csv file.
