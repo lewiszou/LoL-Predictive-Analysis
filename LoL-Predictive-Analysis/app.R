@@ -2,6 +2,7 @@ library(shinythemes)
 library(shiny)
 
 worlds_18 <- readRDS("clean-data/worlds_2018.rds")
+definitions <- readRDS("clean-data/definitions.rds")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme("flatly"),
@@ -12,6 +13,23 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                         HTML(readLines('About.html'))),
                
                tabPanel("Dataset",
+                        sidebarLayout(
+                          sidebarPanel(
+                            selectInput("select", label = h3("Select word"), 
+                                        choices = definitions)
+                          ),
+                          mainPanel(
+                            br(),
+                            h3("Definition"),
+                            fluidRow(column(10, textOutput("select"))),
+                          )
+                        ),
+                        
+
+                        
+                        
+                        
+                        
                         tabPanel("Explore the Data",
                                  column(4,
                                         selectInput("team",
@@ -63,7 +81,11 @@ server <- function(input, output) {
       data <- data[data$position == input$position,]
     }
     data
-  }))
+    }))
+  
+  # Dataset
+  
+  output$select <- renderText({input$select})
   
 }
 
