@@ -10,26 +10,25 @@ ui <- fluidPage(theme = shinytheme("flatly"),
     navbarPage("League of Legends",
                
                tabPanel("About",
-                        HTML(readLines('About.html'))),
+                        h1("League of Legends — a global phenomenon"),
+                        br(),
+                        img(src="map.jpg", 
+                            style="display: block; margin-left: auto; margin-right: auto;", 
+                            height = "475px"),
+                        h5("Map of a classic League of Legends game", align = "center"),
+                        HTML(readLines('About.html'))
+                        ),
                
                tabPanel("Dataset",
                         sidebarLayout(
                           sidebarPanel(
-                            selectInput("select", label = h3("Select word"), 
-                                        choices = definitions)
-                          ),
+                            selectInput("select", 
+                                        label = h3("Select Column Name"), 
+                                        choices = definitions)),
                           mainPanel(
                             br(),
                             h3("Definition"),
-                            fluidRow(column(10, textOutput("select"))),
-                          )
-                        ),
-                        
-
-                        
-                        
-                        
-                        
+                            fluidRow(column(10, textOutput("select"))),)),
                         tabPanel("Explore the Data",
                                  column(4,
                                         selectInput("team",
@@ -50,11 +49,28 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                  # Create a new row for the table.
                                  
                                  column(width = 12,
-                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;")),),
+                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;")
+               ),
                
-               tabPanel("2018 Worlds: Intro"),
+               tabPanel("2018 Worlds: Intro",
+                        h1("League of Legends — a global phenomenon"),
+                        br(),
+                        img(src="map.jpg", 
+                            style="display: block; margin-left: auto; margin-right: auto;", 
+                            height = "475px"),
+                        h5("Map of a classic League of Legends game", align = "center"),
+                        HTML(readLines('About.html'))),
+               ),
                
-               tabPanel("2018 Worlds: Deep Dive"),
+               tabPanel("2018 Worlds: Deep Dive",
+                        h1("Introduction to the 2018 World Championships"),
+                        br(),
+                        img(src="worlds_2018.jpg", 
+                            style="display: block; margin-left: auto; margin-right: auto;", 
+                            height = "475px"),
+                        h5("2018 World Championships Finals", align = "center"),
+                        HTML(readLines('worlds_intro.html')),
+               ),
                
                tabPanel("Analysis Applied"),
                
@@ -68,7 +84,7 @@ server <- function(input, output) {
 
     
   # About Section
-  
+
   output$table <- DT::renderDataTable(DT::datatable({
     data <- worlds_18
     if (input$team != "All") {

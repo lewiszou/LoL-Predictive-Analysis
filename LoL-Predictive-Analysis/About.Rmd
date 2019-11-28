@@ -5,14 +5,6 @@ date: "11/27/2019"
 output: html_fragment
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-
-
-```
-
-# League of Legends — a global phenomenon
-
 League of Legends (LoL) is a multiplayer online battle arena that allows users to fight in either teams of 3 or 5. Each player, or "summoner", controls a champion with unique abilities and item builds, and sets out to destroy the enemy soul point, the "Nexus". LoL games are discrete — the progress a player makes in one game does not translate to the next.
 
 League became the most played PC game in Europe and North America in 2012 (by hour). Riot Games, the LoL developer, estimates that over 100 million users play the game each month. With its immense community, League has grown its entertainment and competitive segments. They maintain strong viewership in streaming and video services like Youtube and Twitch.tv, often ranking first in the number of hours watched. This popularity has developed its competitive scene — competitions exist in the United States, Europe, China, South Korea, and more. These seasonal long regional competitions culminate in a playoffs, in which top teams can move on to the annual world championships.
