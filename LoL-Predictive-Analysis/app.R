@@ -100,7 +100,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                         HTML(readLines('applied.html')),
                         
                         ### Prediction Model ###
-                        h2("Prediction Model"),
+                        h2("Predicting the Results of Games"),
                         h4("Gold Difference at 10 and 15 minutes (left) and Dragons and Barons (right)"),
                         sidebarLayout(
                           sidebarPanel(
@@ -112,6 +112,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             h6("Accuracy of the models side by side")),
                           mainPanel(
                             tableOutput("predict_table"))),
+                        
+                        
                         
                         ### Important Indicators as a Result of Gold ###
                         h2("Important Indicators as a Result of Gold"),
