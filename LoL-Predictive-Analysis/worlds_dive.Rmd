@@ -47,27 +47,30 @@ Interestingly, gold diff at time, although there is a positive correlation in hi
 It's usually mentioned that early gold advantages lead to greater objective control. Gold may still have a major impact on wins — however, it may just be indirect. Gold could lead to more dragons and barons, which in turn are better determinants of the result. As such, we aim to see the impact of gold on dragons and barons.
 
 ```{r}
-drag_i <- lm(formula = teamdragkills ~ gdat10, data = impact) %>%
+lm(formula = teamdragkills ~ gdat10, data = impact) %>%
   tidy(conf.int = TRUE, conf.level = .9) %>%
-  select(term, estimate, conf.low, conf.high)
-
-baron_i <- lm(formula = teambaronkills ~ gdat10, data = impact) %>%
-  tidy(conf.int = TRUE, conf.level = .9) %>%
-  select(term, estimate, conf.low, conf.high)
-
-drag_i %>%
-  inner_join(baron_i, by = "term", suffix = c(".drag", ".baron")) %>%
+  select(term, estimate, conf.low, conf.high) %>%
   gt() %>%
   cols_label(term = "", 
-             estimate.drag = "Drag Coef",
-             estimate.baron = "Baron Coef",
-             conf.low.drag = "5th percentile", 
-             conf.high.drag = "95th percentile",
-             conf.low.baron = "5th percentile", 
-             conf.high.baron = "95th percentile") %>%
-  fmt_number(columns = vars(estimate.drag, estimate.baron, conf.low.drag, conf.high.drag, conf.low.baron, conf.high.baron), 
+             estimate = "Drag Coef",
+             conf.low = "5th percentile", 
+             conf.high = "95th percentile") %>%
+  fmt_number(columns = vars(estimate, conf.low, conf.high), 
              decimals = 3) %>%
-  tab_header(title= "Impact of Gold on Dragons and Barons",
+  tab_header(title= "Impact of Gold on Dragons",
+             subtitle = "Gold Differential at 10 Minutes into the Game")
+
+lm(formula = teambaronkills ~ gdat10, data = impact) %>%
+  tidy(conf.int = TRUE, conf.level = .9) %>%
+  select(term, estimate, conf.low, conf.high) %>%
+  gt() %>%
+  cols_label(term = "", 
+             estimate = "Baron Coef",
+             conf.low = "5th percentile", 
+             conf.high = "95th percentile") %>%
+  fmt_number(columns = vars(estimate, conf.low, conf.high), 
+             decimals = 3) %>%
+  tab_header(title= "Impact of Gold on Barons",
              subtitle = "Gold Differential at 10 Minutes into the Game")
 
 ```
