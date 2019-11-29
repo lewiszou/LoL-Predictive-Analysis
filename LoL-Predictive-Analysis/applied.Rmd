@@ -1,0 +1,127 @@
+---
+title: "Analysis Applied"
+author: "Lewis Zou"
+date: "11/28/2019"
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(fs)
+library(gt)
+library(tidymodels)
+library(tidyverse)
+
+worlds_16 <- readRDS("clean-data/worlds_2016.rds") %>%
+  filter(position == "Team")
+worlds_17 <- readRDS("clean-data/worlds_2017.rds") %>%
+  filter(position == "Team")
+worlds_18 <- readRDS("clean-data/worlds_2018.rds") %>%
+  filter(position == "Team")
+worlds_19 <- readRDS("clean-data/worlds_2019.rds") %>%
+  filter(position == "Team")
+```
+
+# Creating the Model
+
+We aim to create a model that can potential predict the results of games. Often, analysts declare that gold is a major reason for a victory or loss. They emphasize the importance of gold difference early on — however, from our analysis, we have found that gold difference fails to show a major impact. We now create two models; one that predicts based off gold difference at 10 and 15 minutes, and another that predicts based on dragons and barons killed.
+
+## Result ~ Gdat10 + Gdat15
+
+```{r model 2016 gg}
+x_16_gg <- worlds_16 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_16, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_16_gg, truth = result, estimate = pred_result) %>%
+  gt()
+
+```
+
+```{r model 2017 gg}
+x_17_gg <- worlds_17 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_17, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_17_gg, truth = result, estimate = pred_result) %>%
+  gt()
+
+```
+
+```{r model 2018 gg}
+x_18_gg <- worlds_18 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_18, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_18_gg, truth = result, estimate = pred_result) %>%
+  gt()
+
+```
+
+```{r model 2019 gg}
+x_19_gg <- worlds_19 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_19, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_19_gg, truth = result, estimate = pred_result) %>%
+  gt() 
+
+```
+
+## Result ~ Dragons + Barons
+
+```{r model 2016 db}
+x_16 <- worlds_16 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_16, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_16, truth = result, estimate = pred_result) %>%
+  gt() 
+
+```
+
+```{r model 2017 db}
+x_17 <- worlds_17 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_17, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_17, truth = result, estimate = pred_result) %>%
+  gt() 
+
+```
+
+```{r model 2018 db}
+x_18 <- worlds_18 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_18, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_18, truth = result, estimate = pred_result) %>%
+  gt() 
+
+```
+
+```{r model 2019 db}
+x_19 <- worlds_19 %>% 
+  mutate(result = ifelse(result == 1, "Yes", "No")) %>%
+  mutate(result = as.factor(result)) %>%
+  mutate(prediction = predict(glm(data = worlds_19, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
+
+metrics(x_19, truth = result, estimate = pred_result) %>%
+  gt()
+```

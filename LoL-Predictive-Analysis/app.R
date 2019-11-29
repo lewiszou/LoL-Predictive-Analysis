@@ -96,9 +96,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                         HTML(readLines('worlds_dive.html'))
                ),
                
-               tabPanel("Analysis Applied"),
+               tabPanel("Analysis Applied",
+                        HTML(readLines('applied.html'))
+               ),
                
-               tabPanel("Conclusion")
+               tabPanel("Conclusion",
+                        HTML(readLines('conclusion.html')))
 
                
                )
