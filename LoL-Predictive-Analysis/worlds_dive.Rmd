@@ -16,7 +16,7 @@ library(cowplot)
 worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 ```
 
-# Verifying the Importance of Gold and Related Factors
+# Verifying the Importance of Gold and Factors
 
 Multivariate regression of win ~ gold, win ~ wards + dragons + barons + gold
 

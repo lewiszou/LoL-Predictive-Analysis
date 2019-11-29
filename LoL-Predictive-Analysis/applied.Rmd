@@ -27,101 +27,363 @@ worlds_19 <- readRDS("clean-data/worlds_2019.rds") %>%
 
 We aim to create a model that can potential predict the results of games. Often, analysts declare that gold is a major reason for a victory or loss. They emphasize the importance of gold difference early on — however, from our analysis, we have found that gold difference fails to show a major impact. We now create two models; one that predicts based off gold difference at 10 and 15 minutes, and another that predicts based on dragons and barons killed.
 
-## Result ~ Gdat10 + Gdat15
+<!-- Result ~ Gdat10 + Gdat15 -->
 
 ```{r model 2016 gg}
 x_16_gg <- worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_16, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_16_gg, truth = result, estimate = pred_result) %>%
-  gt()
-
-```
-
-```{r model 2017 gg}
-x_17_gg <- worlds_17 %>% 
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
+  gt() %>%
+  fmt_number(columns = vars(.estimate), 
+             decimals = 3) %>%
+  tab_header(title= "Predictions using Gold Difference",
+             subtitle = "Gold Diff at 10 and 15 Minutes")
+  
+x_17_gg <- 
+  worlds_17 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_17, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_17_gg, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt()
 
-```
-
-```{r model 2018 gg}
-x_18_gg <- worlds_18 %>% 
+x_18_gg <- 
+  worlds_18 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_18, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_18_gg, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>% 
+  metrics(truth = result, estimate = pred_result) %>%
   gt()
 
-```
-
-```{r model 2019 gg}
-x_19_gg <- worlds_19 %>% 
+x_19_gg <- 
+  worlds_19 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_19, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_19_gg, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
+saveRDS(x_16_gg, "graphics/model_gg_16.rds")
+saveRDS(x_17_gg, "graphics/model_gg_17.rds")
+saveRDS(x_18_gg, "graphics/model_gg_18.rds")
+saveRDS(x_19_gg, "graphics/model_gg_19.rds")
 ```
 
-## Result ~ Dragons + Barons
+<!-- Result ~ Dragons + Barons -->
 
 ```{r model 2016 db}
-x_16 <- worlds_16 %>% 
+x_16_db <- 
+  worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_16, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_16, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
-```
-
-```{r model 2017 db}
-x_17 <- worlds_17 %>% 
+x_17_db <- 
+  worlds_17 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_17, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_17, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
-```
-
-```{r model 2018 db}
-x_18 <- worlds_18 %>% 
+x_18_db <- 
+  worlds_18 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_18, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_18, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
-```
-
-```{r model 2019 db}
-x_19 <- worlds_19 %>% 
+x_19_db <- 
+  worlds_19 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_19, result ~ teamdragkills + teambaronkills, family = "binomial"), type = "response")) %>% 
-  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
-
-metrics(x_19, truth = result, estimate = pred_result) %>%
+  mutate(pred_result = as.factor(ifelse(prediction > mean(prediction), "Yes", "No"))) %>%
+  metrics(truth = result, estimate = pred_result) %>%
   gt()
+
+saveRDS(x_16_db, "graphics/model_db_16.rds")
+saveRDS(x_17_db, "graphics/model_db_17.rds")
+saveRDS(x_18_db, "graphics/model_db_18.rds")
+saveRDS(x_19_db, "graphics/model_db_19.rds")
+```
+
+
+<!-- Other --> 
+
+```{r}
+wins_tg_2016 <-
+  worlds_16 %>%
+  group_by(team) %>%
+  summarize(wins = sum(result), 
+            total = length(team), 
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wins)) + 
+  geom_point(color = "black") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title = "Wins as a result of Gold",
+       subtitle = "2016",
+       x = "Gold per Game",
+       y = "Wins")
+
+wins_tg_2017 <- 
+  worlds_17 %>%
+  group_by(team) %>%
+  summarize(wins = sum(result), 
+            total = length(team), 
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wins)) + 
+  geom_point(color = "black") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title = "Wins as a result of Gold",
+       subtitle = "2017",
+       x = "Gold per Game",
+       y = "Wins")
+
+wins_tg_2018 <- 
+  worlds_18 %>%
+  group_by(team) %>%
+  summarize(wins = sum(result), 
+            total = length(team), 
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wins)) + 
+  geom_point(color = "black") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title = "Wins as a result of Gold",
+       subtitle = "2018",
+       x = "Gold per Game",
+       y = "Wins")
+
+wins_tg_2019 <- 
+  worlds_19 %>%
+  group_by(team) %>%
+  summarize(wins = sum(result), 
+            total = length(team), 
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wins)) + 
+  geom_point(color = "black") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title = "Wins as a result of Gold",
+       subtitle = "2019",
+       x = "Gold per Game",
+       y = "Wins")
+
+saveRDS(wins_tg_2016, "graphics/wins_tg_2016.rds")
+saveRDS(wins_tg_2017, "graphics/wins_tg_2017.rds")
+saveRDS(wins_tg_2018, "graphics/wins_tg_2018.rds")
+saveRDS(wins_tg_2019, "graphics/wins_tg_2019.rds")
+```
+
+```{r Graph of Dragons per Game vs Gold per Game}
+
+# Everything here was generally the same.
+# I summarized by wins, total occurances, and total dragons to get it on per game basis.
+# I graphed dragons against wins and labeled everything accordingly.
+
+dragons_tg_2016 <-
+  worlds_16 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_dragons = sum(teamdragkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_dragons)) + 
+  geom_point(color = "darkblue") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  labs(title = "Dragons as a result of Gold",
+       subtitle = "2016",
+       x = "Gold per Game",
+       y = "Dragons per Game")
+
+dragons_tg_2017 <- 
+  worlds_17 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_dragons = sum(teamdragkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_dragons)) +  
+  geom_point(color = "darkblue") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  labs(title = "Dragons as a result of Gold",
+       subtitle = "2017",
+       x = "Gold per Game",
+       y = "Dragons per Game")
+
+dragons_tg_2018 <- worlds_18 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_dragons = sum(teamdragkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_dragons)) + 
+  geom_point(color = "darkblue") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  labs(title = "Dragons as a result of Gold",
+       subtitle = "2018",
+       x = "Gold per Game",
+       y = "Dragons per Game")
+
+dragons_tg_2019 <- worlds_19 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_dragons = sum(teamdragkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_dragons)) + 
+  geom_point(color = "darkblue") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  labs(title = "Dragons as a result of Gold",
+       subtitle = "2019",
+       x = "Gold per Game",
+       y = "Dragons per Game")
+
+saveRDS(dragons_tg_2016, "graphics/dragons_tg_2016.rds")
+saveRDS(dragons_tg_2017, "graphics/dragons_tg_2017.rds")
+saveRDS(dragons_tg_2018, "graphics/dragons_tg_2018.rds")
+saveRDS(dragons_tg_2019, "graphics/dragons_tg_2019.rds")
+```
+
+```{r Graph of Barons per Game vs Gold per Game}
+
+# Everything here was generally the same.
+# I summarized by wins, total occurances, and total barons to get it on per game basis.
+# I graphed barons against wins and labeled everything accordingly.
+
+barons_tg_2016 <-
+  worlds_16 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_barons = sum(teambaronkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_barons)) + 
+  geom_point(color = "darkcyan") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkcyan") +
+  labs(title = "Barons as a result of Gold",
+       subtitle = "2016",
+       x = "Gold per Game",
+       y = "Barons per Game")
+
+barons_tg_2017 <- 
+  worlds_17 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_barons = sum(teambaronkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_barons)) +  
+  geom_point(color = "darkcyan") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkcyan") +
+  labs(title = "Barons as a result of Gold",
+       subtitle = "2017",
+       x = "Gold per Game",
+       y = "Barons per Game")
+
+barons_tg_2018 <- 
+  worlds_18 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_barons = sum(teambaronkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_barons)) + 
+  geom_point(color = "darkcyan") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkcyan") +
+  labs(title = "Barons as a result of Gold",
+       subtitle = "2018",
+       x = "Gold per Game",
+       y = "Barons per Game")
+
+barons_tg_2019 <- 
+  worlds_19 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            total_barons = sum(teambaronkills) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, total_barons)) + 
+  geom_point(color = "darkcyan") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkcyan") +
+  labs(title = "Barons as a result of Gold",
+       subtitle = "2019",
+       x = "Gold per Game",
+       y = "Barons per Game")
+
+saveRDS(barons_tg_2016, "graphics/barons_tg_2016.rds")
+saveRDS(barons_tg_2017, "graphics/barons_tg_2017.rds")
+saveRDS(barons_tg_2018, "graphics/barons_tg_2018.rds")
+saveRDS(barons_tg_2019, "graphics/barons_tg_2019.rds")
+```
+
+```{r Graph of Wards per Game vs Gold per Game}
+
+# Everything here was generally the same.
+# I summarized by wins, total occurances, and total wards to get it on per game basis.
+# I graphed wards against wins and labeled everything accordingly.
+
+wards_tg_2016 <-
+  worlds_16 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            wards = sum(wards) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wards)) + 
+  geom_point(color = "darkturquoise") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkturquoise") +
+  labs(title = "Wards as a result of Gold",
+       subtitle = "2016",
+       x = "Gold per Game",
+       y = "Wards per Game")
+
+wards_tg_2017 <- 
+  worlds_17 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            wards = sum(wards) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wards)) +  
+  geom_point(color = "darkturquoise") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkturquoise") +
+  labs(title = "Wards as a result of Gold",
+       subtitle = "2017",
+       x = "Gold per Game",
+       y = "Wards per Game")
+
+wards_tg_2018 <- 
+  worlds_18 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            wards = sum(wards) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wards)) + 
+  geom_point(color = "darkturquoise") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkturquoise") +
+  labs(title = "Wards as a result of Gold",
+       subtitle = "2018",
+       x = "Gold per Game",
+       y = "Wards per Game")
+
+wards_tg_2019 <- 
+  worlds_19 %>%
+  group_by(team) %>%
+  summarize(total = length(team), 
+            wards = sum(wards) / total,
+            totalgold = sum(totalgold) / total) %>%
+  ggplot(aes(totalgold, wards)) + 
+  geom_point(color = "darkturquoise") + 
+  geom_smooth(method = "lm", se = FALSE, color = "darkturquoise") +
+  labs(title = "Wards as a result of Gold",
+       subtitle = "2019",
+       x = "Gold per Game",
+       y = "Wards per Game")
+
+saveRDS(wards_tg_2016, "graphics/wards_tg_2016.rds")
+saveRDS(wards_tg_2017, "graphics/wards_tg_2017.rds")
+saveRDS(wards_tg_2018, "graphics/wards_tg_2018.rds")
+saveRDS(wards_tg_2019, "graphics/wards_tg_2019.rds")
 ```

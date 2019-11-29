@@ -97,7 +97,42 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                ),
                
                tabPanel("Analysis Applied",
-                        HTML(readLines('applied.html'))
+                        HTML(readLines('applied.html')),
+                        
+                        ### Prediction Model ###
+                        h2("Prediction Model"),
+                        h4("Gold Difference at 10 and 15 minutes (left) and Dragons and Barons (right)"),
+                        sidebarLayout(
+                          sidebarPanel(
+                            sliderInput(inputId = "model", 
+                                        label = "Year:",
+                                        min = 16, max = 19,
+                                        value = 16, step = 1,
+                                        animate = animationOptions(interval = 2000, loop = TRUE)),
+                            h6("Accuracy of the models side by side")),
+                          mainPanel(
+                            tableOutput("predict_table"))),
+                        
+                        ### Important Indicators as a Result of Gold ###
+                        h2("Important Indicators as a Result of Gold"),
+                        sidebarLayout(
+                          sidebarPanel(
+                            sliderInput(inputId = "year", 
+                                        label = "Year:",
+                                        min = 16, max = 19,
+                                        value = 16, step = 1,
+                                        animate = animationOptions(interval = 1200, loop = TRUE)),
+                            h6("Select through 2016-2019, or animate to see the change."),
+                            selectInput(
+                              inputId = "type",
+                              label = "Choose a stat:",
+                              choices = c("Wins",
+                                          "Dragons",
+                                          "Barons",
+                                          "Wards")),
+                            h6("Select to get graphs on team wins, dragons kills, barons kills, and wards placed.")),
+                          mainPanel(
+                            plotOutput("plotfour")))
                ),
                
                tabPanel("Conclusion",
@@ -143,6 +178,41 @@ server <- function(input, output) {
     print(p)
   })
   
+  # Analysis Applied — Prediction Models
+  predict_model <- reactive({
+    if ( 16 %in% input$model) return(c(readRDS(file = "graphics/model_gg_16.rds"), readRDS(file = "graphics/model_db_16.rds")))
+    if ( 17 %in% input$model) return(c(readRDS(file = "graphics/model_gg_17.rds"), readRDS(file = "graphics/model_db_17.rds")))
+    if ( 18 %in% input$model) return(c(readRDS(file = "graphics/model_gg_18.rds"), readRDS(file = "graphics/model_db_18.rds")))
+    if ( 19 %in% input$model) return(c(readRDS(file = "graphics/model_gg_19.rds"), readRDS(file = "graphics/model_db_19.rds")))
+  })
+  output$predict_table <- renderTable({   
+    barplots = predict_model()
+    barplots
+  })
+  
+  # Analysis Applied — Transition Graphs
+  graphf <- reactive({
+    if ( 16 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2016.rds"))
+    if ( 17 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2017.rds"))
+    if ( 18 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2018.rds"))
+    if ( 19 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2019.rds"))
+    if ( 16 %in% input$year & "Dragons" %in% input$type) return(readRDS(file = "graphics/dragons_tg_2016.rds"))
+    if ( 17 %in% input$year & "Dragons" %in% input$type) return(readRDS(file = "graphics/dragons_tg_2017.rds"))
+    if ( 18 %in% input$year & "Dragons" %in% input$type) return(readRDS(file = "graphics/dragons_tg_2018.rds"))
+    if ( 19 %in% input$year & "Dragons" %in% input$type) return(readRDS(file = "graphics/dragons_tg_2019.rds"))
+    if ( 16 %in% input$year & "Barons" %in% input$type) return(readRDS(file = "graphics/barons_tg_2016.rds"))
+    if ( 17 %in% input$year & "Barons" %in% input$type) return(readRDS(file = "graphics/barons_tg_2017.rds"))
+    if ( 18 %in% input$year & "Barons" %in% input$type) return(readRDS(file = "graphics/barons_tg_2018.rds"))
+    if ( 19 %in% input$year & "Barons" %in% input$type) return(readRDS(file = "graphics/barons_tg_2019.rds"))
+    if ( 16 %in% input$year & "Wards" %in% input$type) return(readRDS(file = "graphics/wards_tg_2016.rds"))
+    if ( 17 %in% input$year & "Wards" %in% input$type) return(readRDS(file = "graphics/wards_tg_2017.rds"))
+    if ( 18 %in% input$year & "Wards" %in% input$type) return(readRDS(file = "graphics/wards_tg_2018.rds"))
+    if ( 19 %in% input$year & "Wards" %in% input$type) return(readRDS(file = "graphics/wards_tg_2019.rds"))
+  })
+  output$plotfour <- renderPlot({   
+    barplots = graphf()
+    print(barplots)
+  })
   
   
   
