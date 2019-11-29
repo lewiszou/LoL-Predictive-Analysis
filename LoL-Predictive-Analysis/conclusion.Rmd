@@ -9,4 +9,30 @@ output: html_fragment
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Conclusion
+# Findings
+
+League of Legends is a game of strategy and objective control. Everything is tied — in essence, gold generated helps gain items to take dragons and barons, which ultimately is a major difference maker in the result of games. 
+
+When looking at the 2018 data we started with, we see that the model based on gold difference had an overall accuracy of .71, doing better than random by .43. Even though the linear models previously found showed only slight increases to winning, we find that this predictive model is relatively accurate. However, we find that the model based on dragons and barons has an overall accuracy of .88, nearly 25% more. Notably, it performs better than random by .77, a near 80% increase over the model of gold difference. This extends further when using these models on other years.
+
+The accuracy for the model based on gold difference consistently performed at around .70, while the accuracy for the model based on dragons and barons consistently performed at around .85. 
+
+Although gold difference and gold generated does have a critical impact in the result of games, its important to note that gold difference, while important, is not the most defining factor in the game. While gold difference does give an early indicator on the potential result of the game, the barons and dragons captured also present an important factor.
+
+In conclusion, we are in agreement that gold difference is extremely important. From our findings however, the impact of dragons and barons should not be minimized. They hold the key as important indicators in the result of League world championship games.
+
+## Errors and Complications with our Result
+
+There were many errors that occured and could have occured. Although we aimed to be accurate and concrete in our conclusions, we lack of data and number of possible confounding variables make it difficult to truly produce a strong conclusion.
+
+1. Notably, we could only use World Championship game data. We had to filter out the play in stage, in which the top teams do not play. Those games tend to boost the stats of teams that win the stage, who may end up performing poorly in the actual tournament. As such, we could only use around 1,000 data points of players and teams. After often further condensing this down to teams, we had very few datapoints to create models off of. The issue is that it was extremely difficult to get those datasets — we could not use other tournament data and other LoL game data to produce our results. The playstyle and boosts given to each champion and objective also varies every few months, making it difficult to compare the statistics from different games. The difference in preparation and drastic variances in level of competition make a side by side comparison biased and skewed.
+
+2. The number of confounding variables was also concerning. Given that we could not find data tracking each second of the game, we could only use end-of-game and 10/15 minute time stamps. Because the game is based on strategy, shotcalling and other game statistics could greatly skewed the data. Although we see a correlation between wins and dragons and barons, the win could be a result of strong teamwork and shotcalling instead of strictly objective control. Furthermore, shotcalling is even critical to game control, and as something not quantifiable, makes it difficult to truly understand what matters in predicting the result of a game. 
+
+3. Given the meta (playstyle) changes year over year, the importance of different objectives also changes year over year. In some metas, capturing the baron may boost offensive statistics much more than capturing dragons, and as such would increase the impact of baron on the overall rseult of the game.
+
+## Conclusion
+
+Overall, I aimed to analyze the data and present the results in a concise, understandable project. I found that while gold does have an impact on the result of a game, dragon and baron kills have more of an impact. As such, it is understandable why teams place so much emphasis on objective control. Given that we found a high boost in the probability of winning for each dragon or baron killed, its no wonder that teams focus heavily on the timings and layout of objectives. 
+
+This can be applied further — even when considering normal League of Legends games, players can focus more on objectives than actual kills. This is a huge change in mindset — given that the ultimate goal is to win teamfights, players forget the importance of objectives in improving their chances to win teamfights. This project was a great way to better understand the strategy and mechanics of the game, and helps better explain the strategies that LoL teams adopt.
