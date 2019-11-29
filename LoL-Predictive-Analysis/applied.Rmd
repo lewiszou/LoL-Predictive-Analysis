@@ -36,7 +36,8 @@ We also wanted to show the correlation between significant factors and gold. It'
 <!-- Result ~ Gdat10 + Gdat15 -->
 
 ```{r model 2016 gg}
-x_16_gg <- worlds_16 %>% 
+x_16_gg <- 
+  worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
   mutate(result = as.factor(result)) %>%
   mutate(prediction = predict(glm(data = worlds_16, result ~ gdat10 + gdat15, family = "binomial"), type = "response")) %>% 

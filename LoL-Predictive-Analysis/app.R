@@ -113,8 +113,6 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                           mainPanel(
                             tableOutput("predict_table"))),
                         
-                        
-                        
                         ### Important Indicators as a Result of Gold ###
                         h2("Important Indicators as a Result of Gold"),
                         sidebarLayout(
