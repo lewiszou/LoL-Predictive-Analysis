@@ -21,6 +21,8 @@ worlds_18 <- readRDS("clean-data/worlds_2018.rds") %>%
   filter(position == "Team")
 worlds_19 <- readRDS("clean-data/worlds_2019.rds") %>%
   filter(position == "Team")
+
+# In here I loaded the necessary packages and dataset.
 ```
 
 # Creating the Model
@@ -35,7 +37,7 @@ We also wanted to show the correlation between significant factors and gold. It'
 
 <!-- Result ~ Gdat10 + Gdat15 -->
 
-```{r model 2016 gg}
+```{r models gg}
 x_16_gg <- 
   worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
@@ -76,15 +78,22 @@ x_19_gg <-
   metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
+# I create an ifelse that would better compare the predictions with the result.
+# I made both the result and prediction as factors.
+# I create prediction using predict as a logistic model, and then used metrics to comapre the two.
+# I repeated this with the four different years.
+
 saveRDS(x_16_gg, "graphics/model_gg_16.rds")
 saveRDS(x_17_gg, "graphics/model_gg_17.rds")
 saveRDS(x_18_gg, "graphics/model_gg_18.rds")
 saveRDS(x_19_gg, "graphics/model_gg_19.rds")
+
+# I used saveRDS to save the models as objects.
 ```
 
 <!-- Result ~ Dragons + Barons -->
 
-```{r model 2016 db}
+```{r models db}
 x_16_db <- 
   worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
@@ -121,16 +130,25 @@ x_19_db <-
   metrics(truth = result, estimate = pred_result) %>%
   gt()
 
+# I used a similar process as previously.
+# However, instead of using gdat10 + gdat15, I used teamdragkills and teambaronkills
+
 saveRDS(x_16_db, "graphics/model_db_16.rds")
 saveRDS(x_17_db, "graphics/model_db_17.rds")
 saveRDS(x_18_db, "graphics/model_db_18.rds")
 saveRDS(x_19_db, "graphics/model_db_19.rds")
-```
 
+# I used saveRDS to save the models as objects.
+```
 
 <!-- Other --> 
 
-```{r}
+```{r wins as a result of object}
+
+# I grouped by team, and then used summarize to get the wins, and totalgold per game.
+# I used ggplot and labeled the graphs accordingly.
+# I repeated this for the different years, and saved it as rds objects.
+
 wins_tg_2016 <-
   worlds_16 %>%
   group_by(team) %>%
@@ -197,7 +215,7 @@ saveRDS(wins_tg_2019, "graphics/wins_tg_2019.rds")
 
 # Everything here was generally the same.
 # I summarized by wins, total occurances, and total dragons to get it on per game basis.
-# I graphed dragons against wins and labeled everything accordingly.
+# I graphed dragons against gold and labeled everything accordingly.
 
 dragons_tg_2016 <-
   worlds_16 %>%
@@ -263,7 +281,7 @@ saveRDS(dragons_tg_2019, "graphics/dragons_tg_2019.rds")
 
 # Everything here was generally the same.
 # I summarized by wins, total occurances, and total barons to get it on per game basis.
-# I graphed barons against wins and labeled everything accordingly.
+# I graphed barons against gold and labeled everything accordingly.
 
 barons_tg_2016 <-
   worlds_16 %>%
@@ -331,7 +349,7 @@ saveRDS(barons_tg_2019, "graphics/barons_tg_2019.rds")
 
 # Everything here was generally the same.
 # I summarized by wins, total occurances, and total wards to get it on per game basis.
-# I graphed wards against wins and labeled everything accordingly.
+# I graphed wards against gold and labeled everything accordingly.
 
 wards_tg_2016 <-
   worlds_16 %>%

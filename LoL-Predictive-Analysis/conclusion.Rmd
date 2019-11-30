@@ -5,19 +5,14 @@ date: "11/28/2019"
 output: html_fragment
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 # Findings
 
 League of Legends is a game of strategy and objective control. Everything is tied — in essence, gold generated helps gain items to take dragons and barons, which ultimately is a major difference maker in the result of games. 
-
 When looking at the 2018 data we started with, we see that the model based on gold difference had an overall accuracy of .71, doing better than random by .43. Even though the linear models previously found showed only slight increases to winning, we find that this predictive model is relatively accurate. However, we find that the model based on dragons and barons has an overall accuracy of .88, nearly 25% more. Notably, it performs better than random by .77, a near 80% increase over the model of gold difference. This extends further when using these models on other years.
 
 The accuracy for the model based on gold difference consistently performed at around .70, while the accuracy for the model based on dragons and barons consistently performed at around .85. 
 
-Although gold difference and gold generated does have a critical impact in the result of games, its important to note that gold difference, while important, is not the most defining factor in the game. While gold difference does give an early indicator on the potential result of the game, the barons and dragons captured also present an important factor.
+Although gold difference and gold generated do have a critical impact on the result of games, its important to note that gold difference, while important, is not the most defining factor in the game. While gold difference does give an early indicator on the potential result of the game, the barons and dragons captured also present an important factor.
 
 In conclusion, we are in agreement that gold difference is extremely important. From our findings however, the impact of dragons and barons should not be minimized. They hold the key as important indicators in the result of League world championship games.
 

@@ -10,12 +10,16 @@ knitr::opts_chunk$set(echo = FALSE)
 
 library(tidyverse)
 library(cowplot)
+
 worlds_18 <- readRDS("clean-data/worlds_2018.rds")
+
+# In here I loaded the necessary packages and data.
 ```
 
-League of Legends teams, players, and analysts have moved from an emphasis on stylish player against player outplays to a greater focus on strategy and statistics. Although 1v1 outplays are still celebrated across the game, strong game management and objective control ultimately lead to victories. Objectives like dragons and barons are often cited as deciders of wins and losses. This makes sense: these late-game objectives provide a major damage boost. As such, the winner (IG), a semifinalist, and a quarterfinalist made the top 5 in average dragons per game. 
+League of Legends teams, players, and analysts have moved from an emphasis on stylish 1v1 outplays to strategic objective control. Although these outplays are still celebrated across the game, strong game management and objective control ultimately lead to victories. Objectives like dragons and barons are often cited as deciders of wins and losses. This makes sense: these late-game objectives provide a major damage boost. As such, the winner (IG), a semifinalist, and a quarterfinalist made the top 5 in average dragons per game. 
 
-```{r}
+```{r top five teams dragons per game, fig.align="center"}
+
 worlds_18 %>%
   group_by(team) %>%
   filter(position == "Team") %>%
@@ -30,11 +34,19 @@ worlds_18 %>%
        x = "Team",
        y = "Dragons per Game")
 
+# I grouped the data by the team, to help normalize for the different positions in the game.
+# I removed the week thats not included in the actual main tournament.
+# I summarized by the number of games played, and divided the total dragons killed by that total.
+# I then arranged it to descend, and took the top five teams.
+# I added a ggplot, and then labeled the graph according.
 ```
 
-Notably, Team Liquid and Phong Vu Buffalo, did not place well but still maintained a high number of dragons. As such, we emphasize that there are many other factors that lead to game wins. Although dragons and objectives are important in helping teams gain these boosts, ultimately it is teamfights that lead to the result of a game. Gold is critical in purchasing items to defeat other teams. Gold matters more earlier in the game — during that time, a larger gold difference presents a drastic item difference. This difference in gold contributes to a difference in items and thus damage — a greater difference in gold allows one team to dominate the other in teamfights. Gold difference also helps normalize the data, as some games may result in more actions and thus result in more overall gold. As such, we note that the winner (IG), 2nd place (Fnatic), and two quarterfinalists maintained the strongest gold difference at 10 minutes. Room for error still remains: Team Liquid placed only slightly better than the median.
+Notably, Team Liquid and Phong Vu Buffalo, did not place well but still maintained a high number of dragons. As such, we note that there may be different factors that are more important to game wins. Although dragons and objectives are important in helping teams gain these boosts, ultimately it is teamfights that lead to the result of a game. Gold is critical in purchasing items to win those fights. 
 
-```{r}
+Gold matters more earlier in the game — during that time, a larger gold difference presents a more drastic item difference. A greater difference in gold allows one team to dominate the other in teamfights. Gold difference also helps normalize the data, as some games may result in more actions and thus result in more overall gold. As such, we note that the winner (IG), 2nd place (Fnatic), and two quarterfinalists maintained the strongest gold difference at 10 minutes. Room for error still remains: Team Liquid placed only slightly better than the median.
+
+```{r top five teams in gold difference at 10 minutes, fig.align="center"}
+
 worlds_18 %>%
   group_by(team) %>%
   filter(position == "Team") %>%
@@ -49,11 +61,17 @@ worlds_18 %>%
        x = "Team",
        y = "Average Gold Difference at 10 Minutes")
 
+# I grouped the data by the team, to help normalize for the different positions in the game.
+# I removed the week thats not included in the actual main tournament.
+# I summarized by the number of games played, and divided the total gold difference at 10 minutes by the total games played.
+# I then arranged it to descend, and took the top five teams.
+# I added a ggplot, and then labeled the graph according.
 ```
 
-The trend continues with the teams that did poorly. 4 of the 5 teams depicted performed below average. The only outlier, Edward Gaming, placed as a quarterfinalist. 
+The trend of success with positive gold difference continues with the teams that did poorly. 4 of the 5 teams depicted performed below average. The only outlier, Edward Gaming, placed as a quarterfinalist. 
 
-```{r}
+```{r bottom dive teams in gold difference at 10 minutes, fig.align="center"}
+
 worlds_18 %>%
   group_by(team) %>%
   filter(position == "Team") %>%
@@ -67,16 +85,18 @@ worlds_18 %>%
   labs(title = "Bottom 5 Teams in Gold Difference at 10 Minutes",
        x = "Team",
        y = "Average Gold Difference at 10 Minutes")
-```
 
+# I used the same process as the graph of positive gold difference, but in this case I took the bottom five teams.
+```
 
 Although these trends are not absolute and can only suggest a correlation, we can tell that gold is critical to these teams. As such, we dive deeper into the importance of gold.
 
 ## The Importance of Gold
 
-High gold generation is often the key to victory. During the games, announcers often show a graph of gold for the two teams. Let's see the impact of gold on the result of the game, where 1 indicates a victory. As previously mentioned, teams that generated the most gold ended up placing the highest. Gold is essential to purchasing items - notably, there's a strong positive correlation between gold earned and gold spent.
+High gold generation is often the key to victory. During the games, announcers often show graphs of gold for the two teams. As previously mentioned, teams that generated the most gold ended up placing the highest. Gold is essential to purchasing items - understandably, there's a strong positive correlation between gold earned and gold spent.
 
-```{r gold earned vs. spent, fig.align="center", scale = .5}
+```{r gold earned vs. spent, fig.align="center"}
+
 worlds_18 %>%
   filter(position != "Team") %>%
   ggplot(aes(goldspent, totalgold, color = position)) + 
@@ -84,7 +104,8 @@ worlds_18 %>%
   geom_smooth(method = "lm") + 
   labs(title = "Relationship between gold earned and spent",
        x = "Total Gold",
-       y = "Gold Spent")
+       y = "Gold Spent") + 
+  theme(legend.position = c(.09,.74))
 
 # Using a classic ggplot, I looked at how the relationship between gold spent and gold earned to emphasize its importance.
 # I colored by position to show that gold is constantly spent to a 1-1 ratio, even across different positions.
@@ -92,11 +113,12 @@ worlds_18 %>%
 # I named the graph accordingly.
 ```
 
-Although we have seen that teams that generated the most gold placed well in the tournament, we have not put this conclusion to the test. As both the result of the games and damage output of each champion is extremely important, we want to see how gold impacts damage per minute of a game. 
+Although we have seen that teams that generated the most gold placed well in the tournament, we have not put this conclusion to the test. As both the result of the games and damage output of each champion are extremely important, we want to see how gold impacts damage per minute of a game. 
 
-Notably, damage needs to be clarified — some champions in the game are in supporting roles, and do not focus on damage output. However, we color by the position to emphasize the players that focus on gold generation (ADC (attack damage carry), Jungle, and Middle), and see a strong positive correlation of damage per minute to total gold.
+Notably, damage needs to be clarified — some players in the game are in supporting roles, and do not focus on damage output. As such, we color by the position to emphasize the players that focus on gold generation (ADC (attack damage carry), Jungle, and Middle), and see a strong positive correlation of damage per minute to total gold.
 
 ```{r DPM vs gold, fig.align="center"}
+
 worlds_18 %>%
   filter(position != "Team") %>%
   ggplot(aes(totalgold, dmgtochampsperminute, color = position)) + 
@@ -104,7 +126,8 @@ worlds_18 %>%
   geom_smooth(method = "lm") + 
   labs(title = "Impact of Gold on DPM",
        x = "Total Gold",
-       y = "Damage to Champs per Minute") + theme(legend.position = c(.09,.74))
+       y = "Damage to Champs per Minute") + 
+  theme(legend.position = c(.09,.74))
 
 # Using a ggplot, I looked at how the relationship between gold and damage per minute to see how gold impacts damaging the other team.
 # I colored by position to show that it highly depends on the position.
@@ -112,7 +135,7 @@ worlds_18 %>%
 # I named the graph accordingly.
 ```
 
-Given this high correlation, we can use model gold generation to see which objectives affect gold generation the most, and thus can advise teams on which goals to focus on. We finally confirm that greater gold differential and total gold generated are correlated with greater chances of victory. Notably, we confirm that gold difference creates a stronger relationship.
+Given this high correlation, we can use a model to see which objectives affect gold generation the most, and thus can advise teams on which goals to focus on. We then can finally confirm that greater gold differential and total gold generated are correlated with greater chances of victory. Notably, we confirm that gold difference creates a stronger relationship.
 
 ```{r result vs gold, fig.align="center"}
 
@@ -137,7 +160,7 @@ gdat15 <- worlds_18 %>%
 
 # I set the ggplot to result against gdat15, and colored by result to emphasize the increase.
 # I used jitter and glm to make it a logistical model.
-# I added vertical lines to emphasize the difference, and named the labels accordingly.
+# I added vertical lines to emphasize the impact, and named the labels accordingly.
 
 totalgold <- worlds_18 %>%
   filter(position != "Team") %>%
@@ -160,7 +183,7 @@ totalgold <- worlds_18 %>%
 
 # I set the ggplot to result against total gold, and colored by result to emphasize the increase.
 # I used jitter and glm to make it a logistical model.
-# I added vertical lines to emphasize the difference, and named the labels accordingly.
+# I added vertical lines to emphasize the impact, and named the labels accordingly.
 
 plot_grid(gdat15,totalgold)
 ```

@@ -21,9 +21,13 @@ worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 We want to verify the importance of gold in League of Legends. We first look at the impact of gold differential at 10 minutes — we use a linear model to see a straight-line impact.
 
 ```{r impact on game chances for every 100 gold diff at 10}
+
 impact <- worlds_18 %>%
   filter(position == "Team") %>%
   mutate(gdat10 = gdat10 / 100)
+
+# Here I set up the impact variable that I could used — this would have the cleaned data.
+# I then mutated gdat10 to see the impact for every 100 gold in difference.
 
 lm(formula = result ~ gdat10, data = impact) %>%
   tidy(conf.int = TRUE, conf.level = .9) %>%
@@ -37,16 +41,20 @@ lm(formula = result ~ gdat10, data = impact) %>%
              decimals = 3) %>%
   tab_header(title= "Impact of Gold on Result",
              subtitle = "Gold Differential at 10 Minutes into the Game")
-  
+
+# I used a logistic regression using the data of impact.
+# I used the broom package with tidy to get the coefficients and confidence interval.
+# I then used gt() and added the necessary aesthetics.
 ```
 
-We see that the intercept coefficient is .50, suggesting that with no gold difference, the probability of winning is equal to the probability of losing. This makes sense — given that both teams would have the same amount, their ability to succeed would also be equal. Notably, a increase of 100 gold in gold difference at 10 minutes improves the probability of winning by about .02. When considering the average gold difference of Invictus Gaming, the winning team, was only around 400 gold, this total improvement would be about .09.
+We see that the intercept coefficient is .50, suggesting that with no gold difference, the probability of winning is equal to the probability of losing. This makes sense — given that both teams would have the same amount, their ability to succeed would also be equal. Notably, a increase of 100 gold in gold difference at 10 minutes improves the probability of winning by about .02. When considering the average gold difference of Invictus Gaming, the winning team, was only around 500 gold, this total improvement would be about .10.
 
-Interestingly, although there is a positive correlation in high gold differential and wins, it's not as strong as I thought. Given the emphasis casters and analysts place on gold differential, is 2.2% increase for every 100 positive that important to the result of the game?
+Interestingly, although there is a positive correlation in high gold differential and wins, it's not as strong as I thought. Given the emphasis casters and analysts place on gold differential, is 2.2% increase for every 100 positive gold difference that important to the result of the game?
 
 Notably, it's usually mentioned that early gold advantages lead to greater objective control. Gold may still have a major impact on wins — however, it may just be indirect. Gold could lead to more dragons and barons, which in turn are better determinants of the result. As such, we aim to see the impact of gold on dragons and barons.
 
-```{r}
+```{r impact of gold on dragons / barons}
+
 lm(formula = teamdragkills ~ gdat10, data = impact) %>%
   tidy(conf.int = TRUE, conf.level = .9) %>%
   select(term, estimate, conf.low, conf.high) %>%
@@ -73,13 +81,17 @@ lm(formula = teambaronkills ~ gdat10, data = impact) %>%
   tab_header(title= "Impact of Gold on Barons",
              subtitle = "Gold Differential at 10 Minutes into the Game")
 
+# I used a similar process as I did in the first model, but in this case I used teamdragkills and teambaronkills. 
+# I then used the result instead of gold.
+# I first look at the impact of dragons and barons independently.
 ```
 
-From these numbers, its clear that gold also has a minimal impact on dragons and barons. Given that the best gold differential average was around 400, we assume that team gets an average of 8-10% additional probability of winning (up to 60%). We notice that teams without any gold differential take about 1.6 dragons and .6 barons. Gold seems to have a minimal (.04 and .02) increase to the average number of dragons.  
+From these numbers, its clear that gold also has a minimal impact on dragons and barons. We notice that teams without any gold differential take about 1.6 dragons and .6 barons. Gold seems to have a minimal (.04 and .02) increase to the average number of dragons. Given that the best gold differential average was around 500, we assume that the best team gets .25 additional dragons.  
 
-ALthough decent, we realize that this isn't a big difference maker. Realistically, it might be dragons and barons that ultimately are the game deciders. As such, we need to consider the impact of dragons and barons on result.
+ALthough decent, we realize that the added dragons and barons isn't a big difference maker. Realistically, it might be dragons and barons that ultimately are the game deciders. As such, we need to consider the impact of dragons and barons on result.
 
-```{r}
+```{r impact of dragons / barons on result}
+
 lm(formula = result ~ teamdragkills,
    data = impact) %>%
   tidy(conf.int = TRUE, conf.level = .9) %>%
@@ -106,11 +118,15 @@ lm(formula = result ~ teambaronkills,
                decimals = 3) %>%
     tab_header(title= "Impact of Barons on Result")
 
+# I used a similar process as I did in the previous model, but in this case I used result against teamdragkills and teambaronkills.
+# I then used the result instead of gold.
+# I first look at the impact of dragons and barons independently.
 ```
 
-As shown, in comparison to gold difference, dragons and barons both have a more drastic positive impact on the probability of winning. Teams without any dragons have only a 24% chance of winning — however, each dragon increases the probability of victory by another 16%. When considering the univariate model of barons against result, we see an even stronger impact. Each teams begin with an initial probability of 21%. However, the additional baron adds nearly 50%, suggesting that barons seem to have a greater impact. We now see them in comparison.
+As shown, in comparison to gold difference, dragons and barons both have a more drastic positive impact on the probability of winning. Teams without any dragons have only a .24 chance of winning — however, each dragon increases the probability of victory by another .16. When considering the univariate model of barons against result, we see an even stronger impact. Each teams begin with an initial probability of .21. However, the additional baron adds nearly .50, suggesting that barons seem to have a greater impact. We now see them in comparison.
 
-```{r}
+```{r impact of dragons and barons on result}
+
 lm(formula = result ~ teamdragkills + teambaronkills,
     data = impact) %>%
   tidy(conf.int = TRUE, conf.level = .9) %>%
@@ -123,27 +139,34 @@ lm(formula = result ~ teamdragkills + teambaronkills,
     fmt_number(columns = vars(estimate, conf.low, conf.high), 
                decimals = 3) %>%
     tab_header(title= "Impact of Dragons and Barons on the Result")
+
+# In this case I looked at a multivariate model, with teamdragkills and teambaronkills.
 ```
 
-From here, we can clearly tell that the positive impact of barons is greater than that of the dragons. Teams do capture more dragons than barons, but the impact of one baron (in this model) is equivalent to the impact of 10 dragons. 
+From here, we can tell that the positive impact of barons is greater than that of the dragons. Teams do capture more dragons than barons, but the impact of one baron (in this model) is equivalent to the impact of 10 dragons. 
 
-```{r, include = FALSE}
-avg_drags <- impact %>%
+```{r average dragons and barons, include = FALSE}
+
+avg_drags <- 
+  impact %>%
   summarize(avg_drags = mean(teamdragkills))
 
-avg_barons <- impact %>%
+avg_barons <- 
+  impact %>%
   summarize(avg_barons = mean(teambaronkills))
+
+# I use summarize to get the averages.
 ```
 
-Considering each team gets an average of `r avg_drags` dragons and `r avg_barons` barons, we see the overall impact for barons is much greater.
+Considering each team gets an average of `r avg_drags` dragons and `r avg_barons` barons, we see the overall impact for barons is also much greater.
 
 We have previously used linear models — now, let's use a logistical binomial model to graph the impact of dragons and barons on result. As such, we clearly see that even the impact of one baron is immense on the result of a game.
 
-```{r}
+```{r impact of dragons / barons on result graphed, fig.align="center"}
 
 drag_i_g <- 
   ggplot(impact, aes(teamdragkills, result, color = result)) + 
-  geom_point() + 
+  geom_point(alpha = .8) + 
   geom_jitter(height = .1) +
   geom_smooth(method = "glm", 
               method.args = list(family = "binomial"), 
@@ -157,9 +180,13 @@ drag_i_g <-
   geom_vline(xintercept = .5, color = "darkgreen", linetype = "dashed") + 
   geom_vline(xintercept = 4, color = "darkgreen", linetype = "dashed")
 
+# I used ggplot to grph teamdragkills against result.
+# I added geom_jitter to better see the points, and named the graphs accordingly.
+# I then added vertical lines — two sets that would indicate the sections where losses / victories happen.
+
 baron_i_g <- 
   ggplot(impact, aes(teambaronkills, result, color = result)) + 
-  geom_point() + 
+  geom_point(alpha = .8) + 
   geom_jitter(height = .1) +
   geom_smooth(method = "glm", 
               method.args = list(family = "binomial"), 
@@ -173,7 +200,11 @@ baron_i_g <-
   geom_vline(xintercept = .6, color = "darkgreen", linetype = "dashed") + 
   geom_vline(xintercept = 1.4, color = "darkgreen", linetype = "dashed")
 
+# I used a similar process for barons — in thi case, I used teambaronkills instead of teamdragkills.
+
 plot_grid(drag_i_g, baron_i_g)
+
+# I used cowplot to see the two graphs side by side.
 ```
 
 These graphs emphasize the difference. The red dashed lines reflect the common dragon and baron amounts for a loss, and the green dashed lines reflect the common amounts for a win. We see that the green lines show up to the right of the red lines in the graph considering dragons, demonstrating how winning teams often capture more dragons. However, this difference is more clear when considering barons. Given that the quantity of captures are lower and that the buff the kill gives is greater, often one baron can mean the end of a game. As such, there are two large clusters — one around 0 barons and 0 (loss), and one around 1 baron and 1 (win). We see that it is extremely clear that a single baron kill greatly improves a team's chances of winning. This correlation helps explain why teams care so much about objective control. Given that the impact of dragons and barons is so clear, we aim to create model to then predict the results of worlds in 2016, 2017, and 2019.
