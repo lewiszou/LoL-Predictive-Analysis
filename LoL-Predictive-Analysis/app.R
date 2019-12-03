@@ -5,6 +5,7 @@ worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 definitions <- readRDS("clean-data/definitions.rds")
 
 # Adjusting the Dataset for the interactive graphs in the Intro page
+
 dataset <- worlds_18 %>% 
   filter(position == "Team") %>%
   select(totalgold, team, position, teamkills, teamdragkills, teamtowerkills, teamtowerkills)
@@ -17,9 +18,16 @@ position_dataset <- dataset %>%
   select(position)
 
 # Define UI for application that draws a histogram
+
 ui <- fluidPage(theme = shinytheme("flatly"),
                 
+    # Creating the navbar page for League of Legends
+    
     navbarPage("League of Legends",
+               
+               # About page — giving an introduction to the LoL and my project
+               # I essentially made the title and League map, then included the html.
+               # The About.Rmd contains the important information and graphs.
                
                tabPanel("About",
                         h1("League of Legends — a global phenomenon"),
@@ -30,6 +38,11 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                         h5("Map of a classic League of Legends game", align = "center"),
                         HTML(readLines('About.html'))
                         ),
+               
+               # Dataset page — I first set up the definitions table.
+               # I created a selection tab that then displays the definition in the main panel.
+               # I included the actual dataset, with 3 options to select and order the data.
+               # I included the data output, with a scroll to fix the extended slider past the width.
                
                tabPanel("Dataset",
                         sidebarLayout(
@@ -65,6 +78,11 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                         DT::dataTableOutput("table"), style = "overflow-x: scroll;"))
                ),
                
+               # 2018 Worlds Intro page — I gave an introduction to the 2018 Worlds.
+               # I added the worlds_intro.html, who includes all the important graphs.
+               # I then added a extended grapher with multiple inputs.
+               # It has different dataset columns that allow the user to see how gold is affected.
+               
                tabPanel("2018 Worlds: Intro",
                         h1("Introduction to the 2018 World Championships"),
                         br(),
@@ -75,6 +93,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                         HTML(readLines('worlds_intro.html')),
                         
                         # Dataset Table for Interaction
+                        
                         fluidRow(
                           column(3,
                                  h4("Gold Explorer"),
@@ -92,14 +111,22 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                           plotOutput('interactive_intro')
                ),
 
+               # 2018 Worlds Deep Dive page — I included the important graphs in the worlds_dive.html.
+               
                tabPanel("2018 Worlds: Deep Dive",
                         HTML(readLines('worlds_dive.html'))
                ),
                
+               # Analysis Applied page — I included the initial applied.html graphs.
+               # I added my prediction models, using tableOutput, and included sliders.
+               # The sliders gave the year options with an animation to show the change over the years.
+               # I then included other important graphs that demonstrate indicators as a result of gold.
+               
                tabPanel("Analysis Applied",
                         HTML(readLines('applied.html')),
                         
-                        ### Prediction Model ###
+                        # Prediction Model
+                        
                         h2("Predicting the Results of Games"),
                         h4("Gold Difference at 10 and 15 minutes (left) and Dragons and Barons (right)"),
                         sidebarLayout(
@@ -113,7 +140,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                           mainPanel(
                             tableOutput("predict_table"))),
                         
-                        ### Important Indicators as a Result of Gold ###
+                        # Important Indicators as a Result of Gold
+                        
                         h2("Important Indicators as a Result of Gold"),
                         sidebarLayout(
                           sidebarPanel(
@@ -135,17 +163,17 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             plotOutput("plotfour")))
                ),
                
+               # Conclusion page — I added the conclusion.html which holds the important ideas.
+               
                tabPanel("Conclusion",
                         HTML(readLines('conclusion.html')))
-
-               
                )
 )
 
 server <- function(input, output) {
-
     
   # Dataset Page — Datatable
+  
   output$table <- DT::renderDataTable(DT::datatable({
     data <- worlds_18
     if (input$team != "All") {
@@ -161,9 +189,11 @@ server <- function(input, output) {
     }))
   
   # Dataset Page — Definitions
+  
   output$select <- renderText({input$select})
   
   # Intro Page — Graphing
+  
   dataset <- reactive({
     worlds_18[sample(nrow(worlds_18), input$sampleSize),]
   })
@@ -179,6 +209,7 @@ server <- function(input, output) {
   })
   
   # Analysis Applied — Prediction Models
+  
   predict_model <- reactive({
     if ( 16 %in% input$model) return(c(readRDS(file = "graphics/model_gg_16.rds"), readRDS(file = "graphics/model_db_16.rds")))
     if ( 17 %in% input$model) return(c(readRDS(file = "graphics/model_gg_17.rds"), readRDS(file = "graphics/model_db_17.rds")))
@@ -191,6 +222,7 @@ server <- function(input, output) {
   })
   
   # Analysis Applied — Transition Graphs
+  
   graphf <- reactive({
     if ( 16 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2016.rds"))
     if ( 17 %in% input$year & "Wins" %in% input$type) return(readRDS(file = "graphics/wins_tg_2017.rds"))
@@ -213,9 +245,6 @@ server <- function(input, output) {
     barplots = graphf()
     print(barplots)
   })
-  
-  
-  
   
 }
 
