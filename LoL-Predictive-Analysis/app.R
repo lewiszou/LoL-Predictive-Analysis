@@ -1,7 +1,28 @@
 library(shinythemes)
 library(tidyverse)
 
-worlds_18 <- readRDS("clean-data/worlds_2018.rds")
+# Cleaned worlds_18 for the datatable, didn't in prep due to excessiveness from the four years.
+
+worlds_18 <- readRDS("clean-data/worlds_2018.rds") %>%
+  mutate(gamelength = round(gamelength, digits = 3)) %>%
+  mutate(fbtime = round(fbtime, digits = 3)) %>%
+  mutate(kpm = round(kpm, digits = 3)) %>%
+  mutate(okpm = round(okpm, digits = 3)) %>%
+  mutate(ckpm = round(ckpm, digits = 3)) %>%
+  mutate(fdtime = round(fdtime, digits = 3)) %>%
+  mutate(fttime = round(fttime, digits = 3)) %>%
+  mutate(fbarontime = round(fbarontime, digits = 3)) %>%
+  mutate(dmgtochampsperminute = round(dmgtochampsperminute, digits = 3)) %>%
+  mutate(dmgshare = round(dmgshare, digits = 3)) %>%
+  mutate(earnedgoldshare = round(earnedgoldshare, digits = 3)) %>%
+  mutate(wpm = round(wpm, digits = 3)) %>% 
+  mutate(wardshare = round(wardshare, digits = 3)) %>%
+  mutate(wcpm = round(wcpm, digits = 3)) %>%
+  mutate(visiblewardclearrate = round(visiblewardclearrate, digits = 3)) %>%
+  mutate(invisiblewardclearrate = round(invisiblewardclearrate, digits = 3)) %>%
+  mutate(earnedgpm = round(earnedgpm, digits = 3)) %>%
+  mutate(gspd = round(gspd, digits = 3)) %>%
+  mutate(cspm = round(cspm, digits = 3))
 definitions <- readRDS("clean-data/definitions.rds")
 
 # Adjusting the Dataset for the interactive graphs in the Intro page
@@ -16,6 +37,11 @@ y_dataset <- dataset %>%
   select(teamkills, teamdragkills, teamtowerkills, teamtowerkills)
 position_dataset <- dataset %>%
   select(position)
+
+# Non-team data for the impact gold graphs
+
+non_team <- worlds_18 %>%
+  filter(position != "Team")
 
 # Define UI for application that draws a histogram
 
@@ -195,7 +221,7 @@ server <- function(input, output) {
   # Intro Page — Graphing
   
   dataset <- reactive({
-    worlds_18[sample(nrow(worlds_18), input$sampleSize),]
+    non_team[sample(nrow(non_team), input$sampleSize),]
   })
   output$interactive_intro <- renderPlot({
     p <- ggplot(dataset(), aes_string(x=input$x, y=input$y)) + geom_point()
