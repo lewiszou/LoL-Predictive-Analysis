@@ -230,7 +230,7 @@ server <- function(input, output) {
     if (input$jitter)
       p <- p + geom_jitter()
     if (input$smooth)
-      p <- p + geom_smooth(method = "lm")
+      p <- p + geom_smooth(method = "lm", se = FALSE)
     print(p)
   })
   
