@@ -205,6 +205,8 @@ baron_i_g <-
 plot_grid(drag_i_g, baron_i_g)
 
 # I used cowplot to see the two graphs side by side.
+
+saveRDS(plot_grid(drag_i_g, baron_i_g), "graphics/combined_i_g.rds")
 ```
 
 These graphs emphasize the difference. The red dashed lines reflect the common dragon and baron amounts for a loss, and the green dashed lines reflect the common amounts for a win. We see that the green lines show up to the right of the red lines in the graph considering dragons, demonstrating how winning teams often capture more dragons. However, this difference is more clear when considering barons. Given that the quantity of captures are lower and that the buff the kill gives is greater, often one baron can mean the end of a game. As such, there are two large clusters — one around 0 barons and 0 (loss), and one around 1 baron and 1 (win). We see that it is extremely clear that a single baron kill greatly improves a team's chances of winning. This correlation helps explain why teams care so much about objective control. Given that the impact of dragons and barons is so clear, we aim to create model to then predict the results of worlds in 2016, 2017, and 2019.

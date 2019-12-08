@@ -144,11 +144,11 @@ gdat15 <- worlds_18 %>%
   ggplot(aes(gdat15, result, color = result)) + 
   geom_jitter(height = .2) + 
   geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE) +
-  geom_vline(xintercept = -1000, 
+  geom_vline(xintercept = -800, 
              linetype="dotted",
              color = "red", 
              size=1) + 
-  geom_vline(xintercept = 600, 
+  geom_vline(xintercept = 1150, 
              linetype="dotted",
              color = "red",
              size=1) + 
