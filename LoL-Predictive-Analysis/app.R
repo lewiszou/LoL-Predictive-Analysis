@@ -62,7 +62,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             style="display: block; margin-left: auto; margin-right: auto;", 
                             height = "475px"),
                         h5("Map of a classic League of Legends game", align = "center"),
-                        HTML(readLines('About.html'))
+                        HTML(readLines('About.html')),
                         ),
                
                # Dataset page — I first set up the definitions table.

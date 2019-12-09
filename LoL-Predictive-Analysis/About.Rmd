@@ -30,7 +30,6 @@ The 2018 World Championships dataset only contains about 1,500 rows. Although th
 Notably, I could not use data from Ranked or Normal games (non-tournament). Furthermore, I could not use data from non-Worlds tournament games. The annual World Championship is the most prestigious competition in the game, and teams often bootcamp for weeks in preparation. Using any other data would skew the models, as the difference in dedication, focus, and performance would be clear. Furthermore, Worlds is the only time teams from across the globe compete. Data in all other tournaments would depend heavily on the play style and level of competition in their respective region.
 
 ## My use of the data
-
 In this project, I used data from the 2016-2019 LoL World Championships:
 
 [2016 Worlds](http://oracleselixir.com/gamedata/2016-complete/)
@@ -47,6 +46,9 @@ This data is extensive — it includes datapoints about nearly every part of the
 The data then describes the actual games that are played. We get game length, kills, deaths, assists, and more. The data includes objective and monster kills, things that help champions progress through the game. Often, there is a high correlation between objective control, gold generation, time, and performance — we will use these datapoints to see if we can in hindsight predict the outcome of the game. The data is extremely comprehensive and includes sections that are not typically relevant to the outcome of the game. They can definitely have an impact on a player's ability to move across the map, defend their towers, and generate gold, which can in turn impact the result.
 
 I use the results from the 2018 data on the 2016, 2017, and 2019 LoL World Championships to see if there is a correlation and a way to predict the results of games. I aim to use these results on the 2020 World Championships next year.
+
+## Walking through the project
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/yPzJh8vqAcM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 ## About me
 
