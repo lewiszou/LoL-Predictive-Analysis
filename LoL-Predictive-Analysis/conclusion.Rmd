@@ -14,7 +14,7 @@ The accuracy for the model based on gold difference consistently performed at ar
 
 Although gold difference and gold generated do have a critical impact on the result of games, its important to note that gold difference, while important, is not the most defining factor in the game. While gold difference does give an early indicator on the potential result of the game, the barons and dragons captured also present an important factor.
 
-In conclusion, we are in agreement that gold difference is extremely important. From our findings however, the impact of dragons and barons should not be minimized. They hold the key as important indicators in the result of League world championship games.
+In conclusion, we agree with analysts that gold difference is extremely important. From our findings however, the impact of dragons and barons should not be minimized. They hold the key as important indicators in the result of League world championship games.
 
 ## Errors and Complications with our Result
 

@@ -38,6 +38,12 @@ We also wanted to show the correlation between significant factors and gold. It'
 <!-- Result ~ Gdat10 + Gdat15 -->
 
 ```{r models gg}
+
+# I create an ifelse that would better compare the predictions with the result.
+# I made both the result and prediction as factors.
+# I create prediction using predict as a logistic model, and then used metrics to comapre the two.
+# I repeated this with the four different years.
+
 x_16_gg <- 
   worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
@@ -78,22 +84,22 @@ x_19_gg <-
   metrics(truth = result, estimate = pred_result) %>%
   gt() 
 
-# I create an ifelse that would better compare the predictions with the result.
-# I made both the result and prediction as factors.
-# I create prediction using predict as a logistic model, and then used metrics to comapre the two.
-# I repeated this with the four different years.
+# I used saveRDS to save the models as objects.
 
 saveRDS(x_16_gg, "graphics/model_gg_16.rds")
 saveRDS(x_17_gg, "graphics/model_gg_17.rds")
 saveRDS(x_18_gg, "graphics/model_gg_18.rds")
 saveRDS(x_19_gg, "graphics/model_gg_19.rds")
 
-# I used saveRDS to save the models as objects.
 ```
 
 <!-- Result ~ Dragons + Barons -->
 
 ```{r models db}
+
+# I used a similar process as previously.
+# However, instead of using gdat10 + gdat15, I used teamdragkills and teambaronkills
+
 x_16_db <- 
   worlds_16 %>% 
   mutate(result = ifelse(result == 1, "Yes", "No")) %>%
@@ -130,15 +136,12 @@ x_19_db <-
   metrics(truth = result, estimate = pred_result) %>%
   gt()
 
-# I used a similar process as previously.
-# However, instead of using gdat10 + gdat15, I used teamdragkills and teambaronkills
+# I used saveRDS to save the models as objects.
 
 saveRDS(x_16_db, "graphics/model_db_16.rds")
 saveRDS(x_17_db, "graphics/model_db_17.rds")
 saveRDS(x_18_db, "graphics/model_db_18.rds")
 saveRDS(x_19_db, "graphics/model_db_19.rds")
-
-# I used saveRDS to save the models as objects.
 ```
 
 <!-- Other --> 

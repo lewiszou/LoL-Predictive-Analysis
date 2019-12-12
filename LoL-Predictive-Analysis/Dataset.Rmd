@@ -12,9 +12,12 @@ library(tidyverse)
 library(gt)
 
 worlds_18 <- readRDS("clean-data/worlds_2018.rds")
+
+# In here I loaded the necessary packages and tables.
 ```
 
 ```{r making the definition table}
+# I created a tibble with all the names to create definitions.
 
 def_table <- tribble(
 ~select, ~week, ~game, ~patchno, ~playerid, ~side, ~position, ~player, ~team, ~champion, ~ban, ~gamelength, ~result, ~k, ~d, ~a, ~teamkills, ~teamdeaths, ~doubles, ~triples, ~quadras, ~pentas, ~fb, ~fbassist, ~fbvictim, ~fbtime, ~kpm, ~okpm, ~ckpm, ~fd, ~fdtime, ~teamdragkills, ~oppdragkills, ~elementals, ~oppelementals, ~firedrakes, ~waterdrakes, ~earthdrakes, ~airdrakes, ~elders, ~oppelders, ~herald , ~hearldtime, ~ft, ~fttime, ~firstmidouter, ~firsttothreetowers, ~teamtowerkills, ~opptowerkills, ~fbaron, ~fbarontime, ~teambaronkills, ~oppbaronkills, ~dmgtochamps, ~dmgtochampsperminute, ~dmgshare, ~earnedgoldshare, ~wards, ~wpm, ~wardshare, ~wardkills, ~wcpm, ~visionwards, ~visionwardbuys, ~visiblewarclearrate, ~invisiblewardclearrate, ~totalgold, ~earnedgpm, ~goldspent, ~gspd, ~minionkills, ~monsterkills, ~monsterkillsownjungle, ~monsterkillsenemyjungle, ~cspm, ~goldat10, ~oppgoldat10, ~goldat15, ~oppgoldat15, ~gdat15, ~xpat15, ~oppxpat10, ~xpat10, ~csat10, ~oppcsat10, ~csdat10, ~xpdat10,
@@ -106,6 +109,8 @@ def_table <- tribble(
  "Difference in CS (minions killed) at 10 minutes into the game",
  "Difference in experience at 10 minutes into the game",
 )
+
+# I saved the dataset as an rds file
 
 saveRDS(def_table, "clean-data/definitions.rds")
 ```

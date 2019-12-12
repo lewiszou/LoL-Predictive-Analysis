@@ -123,7 +123,7 @@ lm(formula = result ~ teambaronkills,
 # I first look at the impact of dragons and barons independently.
 ```
 
-As shown, in comparison to gold difference, dragons and barons both have a more drastic positive impact on the probability of winning. Teams without any dragons have only a .24 chance of winning — however, each dragon increases the probability of victory by another .16. When considering the univariate model of barons against result, we see an even stronger impact. Each teams begin with an initial probability of .21. However, the additional baron adds nearly .50, suggesting that barons seem to have a greater impact. We now see them in comparison.
+As shown, in comparison to gold difference, dragons and barons both have a more drastic positive impact on the probability of winning. Teams without any dragons have only a .24 chance of winning — however, each dragon increases the probability of victory by another .16. When considering the univariate model of barons against result, we see an even stronger impact. Each teams begin with an initial probability of .21. However, the additional baron adds nearly .50, suggesting that barons seem to have a greater impact. We now see them in comparison with a multivariate model.
 
 ```{r impact of dragons and barons on result}
 
