@@ -16,6 +16,14 @@ worlds_18 <- readRDS("clean-data/worlds_2018.rds")
 # In here I loaded the necessary packages and data.
 ```
 
+## League of Legends World Championship
+
+The League of Legends World Championships brings 16 teams from various regions to compete for the "Summoner's Cup". In a format similar to that of traditional sports, teams are seeded and drawn into groups. The 2018 finals were watched by nearly 100 million people, a staggering number that reflects the popularity and impact of LoL. Given its worldwide influence, LA2024, the group that oversees Los Angeles' bid for the summer 2024 Olympic Games, would highly consider including eSports and LoL's virtual reality and entertainment in the games.
+
+I chose the 2018 championships because that was the year my favorite team, SK Telecom of South Korea, failed to make the tournament. As three-time winners of the entire competition (2014, 2016, 2017), I was shocked and disappointed. However, I wanted to understand the new environment. I wanted to take a deeper look at the statistics that mattered in 2018. 2018 marks a turning point — I aimed to determine a way to predict the results of games with high accuracy.
+
+## Looking at the Stats
+
 League of Legends teams, players, and analysts have moved from an emphasis on stylish 1v1 outplays to strategic objective control. Although these outplays do impact the outcome of a game, strong game management and objective control are the true deciders of victory. Objectives like dragons and barons are often cited as deciders of wins and losses. This makes sense: these late-game objectives provide a major damage boost. As such, the winner (IG), a semifinalist, and a quarterfinalist made the top 5 in average dragons per game. 
 
 ```{r top five teams dragons per game, fig.align="center"}

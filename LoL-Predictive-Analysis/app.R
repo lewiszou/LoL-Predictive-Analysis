@@ -51,59 +51,6 @@ ui <- fluidPage(theme = shinytheme("flatly"),
     
     navbarPage("League of Legends",
                
-               # About page — giving an introduction to the LoL and my project
-               # I essentially made the title and League map, then included the html.
-               # The About.Rmd contains the important information and graphs.
-               
-               tabPanel("About",
-                        h1("League of Legends — a global phenomenon"),
-                        br(),
-                        img(src="map.jpg", 
-                            style="display: block; margin-left: auto; margin-right: auto;", 
-                            height = "475px"),
-                        h5("Map of a classic League of Legends game", align = "center"),
-                        HTML(readLines('About.html')),
-                        ),
-               
-               # Dataset page — I first set up the definitions table.
-               # I created a selection tab that then displays the definition in the main panel.
-               # I included the actual dataset, with 3 options to select and order the data.
-               # I included the data output, with a scroll to fix the extended slider past the width.
-               
-               tabPanel("Dataset",
-                        sidebarLayout(
-                          sidebarPanel(
-                            selectInput("select", 
-                                        label = h3("Select Column Name"), 
-                                        choices = definitions)),
-                          mainPanel(
-                            br(),
-                            h3("Definition"),
-                            fluidRow(column(10, textOutput("select"))),)),
-                        
-                        tabPanel("Explore the Data",
-                                 column(4,
-                                        selectInput("team",
-                                                    "Team:",
-                                                    c("All",
-                                                      unique(worlds_18$team)))),
-                                 column(4,
-                                        selectInput("result",
-                                                    "Result:",
-                                                    c("All",
-                                                      unique(worlds_18$result)))),
-                                 column(4,
-                                        selectInput("position",
-                                                    "Position:",
-                                                    c("All",
-                                                      unique(worlds_18$position)))),
-                                 
-                                 # Create a new row for the table.
-                                 
-                                 column(width = 12,
-                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;"))
-               ),
-               
                # 2018 Worlds Intro page — I gave an introduction to the 2018 Worlds.
                # I added the worlds_intro.html, who includes all the important graphs.
                # I then added a extended grapher with multiple inputs.
@@ -192,8 +139,63 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                # Conclusion page — I added the conclusion.html which holds the important ideas.
                
                tabPanel("Conclusion",
-                        HTML(readLines('conclusion.html')))
-               )
+                        HTML(readLines('conclusion.html'))
+               ),
+    
+
+               # Dataset page — I first set up the definitions table.
+               # I created a selection tab that then displays the definition in the main panel.
+               # I included the actual dataset, with 3 options to select and order the data.
+               # I included the data output, with a scroll to fix the extended slider past the width.
+                
+               tabPanel("Dataset",
+                        sidebarLayout(
+                          sidebarPanel(
+                            selectInput("select",
+                                        label = h3("Select Column Name"),
+                                        choices = definitions)),
+                          mainPanel(
+                            br(),
+                            h3("Definition"),
+                            fluidRow(column(10, textOutput("select"))),)),
+                        
+                        tabPanel("Explore the Data",
+                                 column(4,
+                                        selectInput("team",
+                                                    "Team:",
+                                                    c("All",
+                                                      unique(worlds_18$team)))),
+                                 column(4,
+                                         selectInput("result",
+                                                     "Result:",
+                                                     c("All",
+                                                       unique(worlds_18$result)))),
+                                 column(4,
+                                        selectInput("position",
+                                                    "Position:",
+                                                    c("All",
+                                                      unique(worlds_18$position)))),
+                                 
+                                 # Create a new row for the table.
+                                 
+                                 column(width = 12,
+                                        DT::dataTableOutput("table"), style = "overflow-x: scroll;"))
+               ),
+               
+               # About page — giving an introduction to the LoL and my project
+               # I essentially made the title and League map, then included the html.
+               # The About.Rmd contains the important information and graphs.
+               
+               
+               tabPanel("About",
+                        h1("League of Legends — a global phenomenon"),
+                        br(),
+                        img(src="map.jpg",
+                            style="display: block; margin-left: auto; margin-right: auto;",
+                            height = "475px"),
+                        h5("Map of a classic League of Legends game", align = "center"),
+                        HTML(readLines('About.html')))
+               ),
 )
 
 server <- function(input, output) {
